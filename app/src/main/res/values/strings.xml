@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HelloWorldLocator</string>
+    <string name="title_activity_offices">Office Locator</string>
+    <string name="title_activity_detail">Office Detail</string>
+    <string name="alert_title_error">NETWORK NOT FOUND</string>
+    <string name="alert_message_internet_error">Internet connection required</string>
+    <string name="ok_button">OK</string>
+    <string name="call_button">CALL</string>
+    <string name="directions_button">DIRECTIONS</string>
+    <string name="title_activity_maps">Map</string>
+
+</resources>
