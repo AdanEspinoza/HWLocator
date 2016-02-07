@@ -1,7 +1,6 @@
 package com.helloworld.hwlocator.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Singleton {
 
@@ -11,7 +10,7 @@ public class Singleton {
 
     private static Singleton singleton;
 
-    public List<LocationObject> locationObjectList = new ArrayList<>();
+    public ArrayList<LocationObject> locationObjectList = new ArrayList<>();
 
     public static Singleton getInstance(){
         if(singleton==null){
@@ -20,11 +19,11 @@ public class Singleton {
         return singleton;
     }
 
-    public List<LocationObject> getLocationObjectList() {
+    public ArrayList<LocationObject> getLocationObjectList() {
         return locationObjectList;
     }
 
-    public void setLocationObjectList(List<LocationObject> locationObjectList) {
+    public void setLocationObjectList(ArrayList<LocationObject> locationObjectList) {
         this.locationObjectList = locationObjectList;
     }
 }

@@ -1,10 +1,9 @@
 package com.helloworld.hwlocator.model;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class LocationObject implements Serializable{
+public class LocationObject implements Parcelable {
 
     private String name;
     private String address;
@@ -17,10 +16,12 @@ public class LocationObject implements Serializable{
     private String latitude;
     private String longitude;
     private String office_image;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     private String distance;
 
+    public LocationObject(){
+
+    }
     /**
      *
      * @return
@@ -219,13 +220,6 @@ public class LocationObject implements Serializable{
         this.office_image = officeImage;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
     public String getDistance() {
         return distance;
@@ -234,4 +228,55 @@ public class LocationObject implements Serializable{
     public void setDistance(String distance) {
         this.distance = distance;
     }
+
+
+
+    protected LocationObject(Parcel in) {
+        name = in.readString();
+        address = in.readString();
+        address2 = in.readString();
+        city = in.readString();
+        state = in.readString();
+        zip_postal_code = in.readString();
+        phone = in.readString();
+        fax = in.readString();
+        latitude = in.readString();
+        longitude = in.readString();
+        office_image = in.readString();
+        distance = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(address);
+        dest.writeString(address2);
+        dest.writeString(city);
+        dest.writeString(state);
+        dest.writeString(zip_postal_code);
+        dest.writeString(phone);
+        dest.writeString(fax);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
+        dest.writeString(office_image);
+        dest.writeString(distance);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<LocationObject> CREATOR = new Parcelable.Creator<LocationObject>() {
+        @Override
+        public LocationObject createFromParcel(Parcel in) {
+            return new LocationObject(in);
+        }
+
+        @Override
+        public LocationObject[] newArray(int size) {
+            return new LocationObject[size];
+        }
+    };
 }

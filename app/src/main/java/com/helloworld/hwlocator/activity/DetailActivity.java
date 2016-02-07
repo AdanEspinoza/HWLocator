@@ -20,9 +20,9 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     private static final String TAG = DetailActivity.class.getSimpleName();
 
     private LocationObject mLocationObject;
-    private ImageView mImageOffice,mStaticMap;
-    private TextView mName, mAddress,mDistance,mToolbarTitle;
-    private Button mBtnCall,mBtnDirections;
+    private ImageView mImageOffice, mStaticMap;
+    private TextView mName, mAddress, mDistance, mToolbarTitle;
+    private Button mBtnCall, mBtnDirections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,59 +42,67 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
         if (getIntent() != null) {
             mLocationObject = (LocationObject) getIntent().getSerializableExtra(Constants.INTENT_EXTRA_DETAIL_LOCATION);
-            mToolbarTitle.setText(mLocationObject.getName());
-            String url = DeviceUtils.validateUrl(mLocationObject.getOfficeImage());
-            Uri uri = Uri.parse(url);
-            Picasso.with(this).
-                    load(uri).
-                    placeholder(R.drawable.hw_splash).
-                    into(mImageOffice);
-
-            mName.setText(mLocationObject.getName());
-            mAddress.setText(DeviceUtils.getFullAddress(mLocationObject));
-            mDistance.setText(mLocationObject.getDistance());
-
-            double latitude = DeviceUtils.getDoubleFromString(mLocationObject.getLatitude());
-            double longitude = DeviceUtils.getDoubleFromString(mLocationObject.getLongitude());
-            StringBuilder sb = new StringBuilder();
-            sb.append("https://maps.googleapis.com/maps/api/staticmap?center=")
-                    .append(latitude)
-                    .append(",")
-                    .append(longitude)
-                    .append("&zoom=15&size=600x600&markers=color:0xff500e")
-                    .append("%7C")
-                    .append(latitude)
-                    .append(",")
-                    .append(longitude);
-            uri = Uri.parse(sb.toString());
-            Log.d(TAG, sb.toString());
-            Picasso.with(this).
-                    load(uri).
-                    placeholder(R.drawable.hw_splash).
-                    into(mStaticMap);
+        } else if(savedInstanceState!=null) {
+            mLocationObject = (LocationObject) savedInstanceState.getSerializable(Constants.BUNDLE_DETAIL_ACTIVITY);
         }
+        mToolbarTitle.setText(mLocationObject.getName());
+        String url = DeviceUtils.validateUrl(mLocationObject.getOfficeImage());
+        Uri uri = Uri.parse(url);
+        Picasso.with(this).
+                load(uri).
+                placeholder(R.drawable.hw_splash).
+                into(mImageOffice);
+
+        mName.setText(mLocationObject.getName());
+        mAddress.setText(DeviceUtils.getFullAddress(mLocationObject));
+        mDistance.setText(mLocationObject.getDistance());
+
+        double latitude = DeviceUtils.getDoubleFromString(mLocationObject.getLatitude());
+        double longitude = DeviceUtils.getDoubleFromString(mLocationObject.getLongitude());
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://maps.googleapis.com/maps/api/staticmap?center=")
+                .append(latitude)
+                .append(",")
+                .append(longitude)
+                .append("&zoom=15&size=600x600&markers=color:0xff500e")
+                .append("%7C")
+                .append(latitude)
+                .append(",")
+                .append(longitude);
+        uri = Uri.parse(sb.toString());
+        Log.d(TAG, sb.toString());
+        Picasso.with(this).
+                load(uri).
+                placeholder(R.drawable.hw_splash).
+                into(mStaticMap);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(Constants.BUNDLE_DETAIL_ACTIVITY, mLocationObject);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        Intent intent;
         switch (id) {
             case R.id.detail_btn_call:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mLocationObject.getPhone().trim()));
+                intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mLocationObject.getPhone().trim()));
                 startActivity(intent);
                 break;
             case R.id.detail_btn_directions:
-                goToGoogleMaps();
+                if (hasPermissonLocation()) {
+                    intent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse("http://maps.google.com/maps?saddr=" + latitude + "," + longitude + "&daddr=" + mLocationObject.getLatitude() + "," + mLocationObject.getLongitude()));
+                } else {
+                    intent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse("http://maps.google.com/maps?daddr=" + mLocationObject.getLatitude() + "," + mLocationObject.getLongitude()));
+                }
+                startActivity(intent);
                 break;
         }
-    }
-
-
-    private void goToGoogleMaps(){
-
-//        Intent intentt = new Intent(android.content.Intent.ACTION_VIEW,
-//                Uri.parse("http://maps.google.com/maps?saddr="+latitude+","+longitude+"&daddr="+ mLocationObject.getLatitude()+","+ mLocationObject.getLongitude()));
-//        startActivity(intentt);
-
     }
 }

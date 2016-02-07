@@ -72,14 +72,11 @@ public class DeviceUtils {
         return true;
     }
 
-    /**
-     * @param str
-     * @return integer mayor a cero sino -1 (error)
-     */
     public static int getIntFromString(String str) {
-        int number = -1;
+        int number = 0;
         try {
-            number = Integer.parseInt(str);
+            Double d = Double.parseDouble(str);
+            number = d.intValue();
         } catch (NumberFormatException nfe) {
             return number;
         }
@@ -152,5 +149,9 @@ public class DeviceUtils {
             newUrl = url.substring(0,4)+"s"+url.substring(4,url.length());
         }
         return newUrl;
+    }
+
+    public static String getStringFromFloat(float value){
+        return String.valueOf(value);
     }
 }

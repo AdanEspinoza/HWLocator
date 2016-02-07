@@ -2,12 +2,11 @@ package com.helloworld.hwlocator.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LocationsResponse {
 
-    private List<LocationObject> locations = new ArrayList<LocationObject>();
+    private ArrayList<LocationObject> locations = new ArrayList<LocationObject>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -15,7 +14,7 @@ public class LocationsResponse {
      * @return
      * The locationObjects
      */
-    public List<LocationObject> getLocationObjects() {
+    public ArrayList<LocationObject> getLocationObjects() {
         return locations;
     }
 
@@ -24,7 +23,7 @@ public class LocationsResponse {
      * @param locationObjects
      * The locationObjects
      */
-    public void setLocationObjects(List<LocationObject> locationObjects) {
+    public void setLocationObjects(ArrayList<LocationObject> locationObjects) {
         this.locations = locationObjects;
     }
 

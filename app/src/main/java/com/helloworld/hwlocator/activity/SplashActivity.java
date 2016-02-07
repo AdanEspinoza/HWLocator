@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -39,31 +38,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_splash);
-
         mLocationDBHelper = new LocationDBHelper(this);
-
         if (isPhoneOnline()) {
-            //go to JSON
-            try {
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        getDataFromJson();
-                    }
-                });
-                thread.start();
-                thread.join();
-            }catch (InterruptedException e){
-                Log.d(TAG, e.getMessage());
-            }
-
+            getDataFromServer();
         } else if (LocationDBHelper.doesDatabaseExist(SplashActivity.this)) {
             getDataFromDB();
-
         } else {
             showAlertDialog();
         }
-
 
         TimerTask task = new TimerTask() {
             @Override
@@ -76,18 +58,6 @@ public class SplashActivity extends AppCompatActivity {
         Timer timer = new Timer();
         timer.schedule(task, SPLASH_SCREEN_DELAY);
     }
-
-//    private boolean executeLogic() {
-//        if (isPhoneOnline()) {
-//            //go to JSON
-//            getDataFromServer();
-//            return true;
-//        } else if (LocationDBHelper.doesDatabaseExist(this)) {
-//            getDataFromDB();
-//            return true;
-//        } else return false;
-//    }
-
 
     private boolean isPhoneOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -152,29 +122,5 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 });
         builder.create().show();
-    }
-
-    private class LoadData extends AsyncTask<Void, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... arg0) {
-            if (isPhoneOnline()) {
-                //go to JSON
-                getDataFromJson();
-                return true;
-            } else if (LocationDBHelper.doesDatabaseExist(SplashActivity.this)) {
-                getDataFromDB();
-                return true;
-            } else return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if (!result) {
-                showAlertDialog();
-            }
-        }
-
     }
 }

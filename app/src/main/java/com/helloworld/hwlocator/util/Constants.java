@@ -12,4 +12,9 @@ public class Constants {
     public static final String PREFERENCES_FILE="helloworld.hwlocator.com.PREFERENCE_FILE_KEY";
 
     public static final String INTENT_EXTRA_DETAIL_LOCATION = "intent.extra_DETAIL_LOCATION";
+    public static final String BUNDLE_OFFICE_ACTIVITY_LIST = "bundle.save_OFFICE_ACTIVITY_LIST";
+    public static final String BUNDLE_DETAIL_ACTIVITY = "bundle.save_DETAIL_ACTIVITY";
+
+
+    public static final int PERMISSION_LOCATION_REQUEST = 0x01;
 }

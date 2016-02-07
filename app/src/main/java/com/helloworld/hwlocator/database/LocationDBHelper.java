@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Parcel;
 
 import com.helloworld.hwlocator.model.LocationObject;
 
@@ -68,8 +69,8 @@ public class LocationDBHelper extends SQLiteOpenHelper {
         db.insert(LOCATION_TABLE_NAME, null, contentValues);
     }
 
-    public List<LocationObject> getAllLocations() {
-        List<LocationObject> locationObjectList = new ArrayList<>();
+    public ArrayList<LocationObject> getAllLocations() {
+        ArrayList<LocationObject> locationObjectList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + LOCATION_TABLE_NAME, null);
         if(cursor.moveToFirst()) {
