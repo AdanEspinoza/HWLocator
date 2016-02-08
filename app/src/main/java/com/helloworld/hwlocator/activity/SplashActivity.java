@@ -19,6 +19,7 @@ import com.helloworld.hwlocator.model.Singleton;
 import com.helloworld.hwlocator.network.RetrofitManager;
 import com.helloworld.hwlocator.util.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -70,7 +71,14 @@ public class SplashActivity extends AppCompatActivity {
         RetrofitManager.getService().getLocations(path, new Callback<LocationsResponse>() {
             @Override
             public void success(LocationsResponse locationsResponse, Response response) {
-                Singleton.getInstance().setLocationObjectList(locationsResponse.getLocationObjects());
+                ArrayList<LocationObject> cleanList = new ArrayList<LocationObject>();
+                for (LocationObject locationObject : locationsResponse.getLocationObjects()) {
+                    if (locationObject != null) {
+                        cleanList.add(locationObject);
+                    }
+                }
+
+                Singleton.getInstance().setLocationObjectList(cleanList);
                 if (!LocationDBHelper.doesDatabaseExist(SplashActivity.this)) {
                     //insert in database first time
                     insertDataDB();

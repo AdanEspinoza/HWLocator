@@ -56,19 +56,19 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
         mName.setText(mLocationObject.getName());
         mAddress.setText(DeviceUtils.getFullAddress(mLocationObject));
-        mDistance.setText(mLocationObject.getDistance()+" KM");
+        mDistance.setText(mLocationObject.getDistance()!=null?mLocationObject.getDistance()+" KM":getString(R.string.unknown_distance));
 
-        double latitude = DeviceUtils.getDoubleFromString(mLocationObject.getLatitude());
-        double longitude = DeviceUtils.getDoubleFromString(mLocationObject.getLongitude());
+        double lat = DeviceUtils.getDoubleFromString(mLocationObject.getLatitude());
+        double lon = DeviceUtils.getDoubleFromString(mLocationObject.getLongitude());
         StringBuilder sb = new StringBuilder();
         sb.append("https://maps.googleapis.com/maps/api/staticmap?center=")
-                .append(latitude)
+                .append(lat)
                 .append(",")
-                .append(longitude)
+                .append(lon)
                 .append("&zoom=15&size=800x800&markers=color:0xff500e%7C")
-                .append(latitude)
+                .append(lat)
                 .append(",")
-                .append(longitude);
+                .append(lon);
         uri = Uri.parse(sb.toString());
         Log.d(TAG, sb.toString());
         Picasso.with(this).

@@ -46,11 +46,11 @@ public class OfficesActivity extends BaseActivity implements OnMapReadyCallback 
         mToolbarTitle = (TextView) findViewById(R.id.toolbar_tv_title);
         mToolbarTitle.setText(R.string.title_activity_offices);
         mListView = (ListView) findViewById(R.id.office_lv_list);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mLocationObjectList = (ArrayList<LocationObject>) savedInstanceState.getSerializable(Constants.BUNDLE_OFFICE_ACTIVITY_LIST);
-        }else{
+        } else {
             mLocationObjectList = Singleton.getInstance().getLocationObjectList();
-            if(mLocationObjectList.isEmpty()){
+            if (mLocationObjectList.isEmpty()) {
                 if (LocationDBHelper.doesDatabaseExist(this)) {
                     mLocationObjectList = mLocationDBHelper.getAllLocations();
                 }
@@ -149,13 +149,11 @@ public class OfficesActivity extends BaseActivity implements OnMapReadyCallback 
         Collections.sort(mLocationObjectList, new Comparator<LocationObject>() {
             @Override
             public int compare(LocationObject lhs, LocationObject rhs) {
-                if (lhs != null && rhs != null) {
-                    if (DeviceUtils.getIntFromString(lhs.getDistance()) < DeviceUtils.getIntFromString(rhs.getDistance())) {
-                        return -1;
-                    }
-                    if (DeviceUtils.getIntFromString(lhs.getDistance()) > DeviceUtils.getIntFromString(rhs.getDistance())) {
-                        return 1;
-                    }
+                if (DeviceUtils.getIntFromString(lhs.getDistance()) < DeviceUtils.getIntFromString(rhs.getDistance())) {
+                    return -1;
+                }
+                if (DeviceUtils.getIntFromString(lhs.getDistance()) > DeviceUtils.getIntFromString(rhs.getDistance())) {
+                    return 1;
                 }
                 return 0;
             }
