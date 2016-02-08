@@ -81,6 +81,12 @@ public class OfficesActivity extends BaseActivity implements OnMapReadyCallback 
             setOnNotifyLocationListener(new OnNotifyLocationPermissionListener() {
                 @Override
                 public void onUpdateList() {
+                    if (isPhoneOnline()) {
+                        if (latitude != 0 && longitude != 0) {
+                            //Sort list from close to further
+                            sortListByDistance();
+                        }
+                    }
                     mAdapter.notifyDataSetChanged();
                 }
             });
