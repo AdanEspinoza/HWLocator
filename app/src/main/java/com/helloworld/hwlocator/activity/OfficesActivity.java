@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.helloworld.hwlocator.R;
 import com.helloworld.hwlocator.adapter.LocationAdapter;
+import com.helloworld.hwlocator.database.LocationDBHelper;
 import com.helloworld.hwlocator.model.LocationObject;
 import com.helloworld.hwlocator.model.Singleton;
 import com.helloworld.hwlocator.util.Constants;
@@ -49,6 +50,11 @@ public class OfficesActivity extends BaseActivity implements OnMapReadyCallback 
             mLocationObjectList = (ArrayList<LocationObject>) savedInstanceState.getSerializable(Constants.BUNDLE_OFFICE_ACTIVITY_LIST);
         }else{
             mLocationObjectList = Singleton.getInstance().getLocationObjectList();
+            if(mLocationObjectList.isEmpty()){
+                if (LocationDBHelper.doesDatabaseExist(this)) {
+                    mLocationObjectList = mLocationDBHelper.getAllLocations();
+                }
+            }
         }
 
         if (mLocationObjectList != null) {
@@ -71,6 +77,13 @@ public class OfficesActivity extends BaseActivity implements OnMapReadyCallback 
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.map_fl_container);
             mapFragment.getMapAsync(this);
+
+            setOnNotifyLocationListener(new OnNotifyLocationPermissionListener() {
+                @Override
+                public void onUpdateList() {
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
         }
     }
 

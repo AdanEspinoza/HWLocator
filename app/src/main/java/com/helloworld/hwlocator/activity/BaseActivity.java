@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.helloworld.hwlocator.database.LocationDBHelper;
 import com.helloworld.hwlocator.util.Constants;
 
 public class BaseActivity extends AppCompatActivity implements LocationListener {
@@ -21,10 +22,13 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
     protected LocationManager locationManager;
     protected Location location;
     protected double latitude=0, longitude=0;
+    protected LocationDBHelper mLocationDBHelper;
+    private OnNotifyLocationPermissionListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mLocationDBHelper = new LocationDBHelper(this);
         if(isPhoneOnline()) {
             locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             requestPermissionLocation();
@@ -57,12 +61,15 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
     }
 
     protected boolean hasPermissonLocation() {
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return false;
+        if(isPhoneOnline()) {
+            if (Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -73,6 +80,9 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     requestPermissionLocation();
+                    if(mListener!=null) {
+                        mListener.onUpdateList();
+                    }
                 }
                 break;
             }
@@ -99,5 +109,12 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
 
     }
 
+    public void setOnNotifyLocationListener(OnNotifyLocationPermissionListener listener){
+        mListener = listener;
+    }
+
+    public interface OnNotifyLocationPermissionListener{
+        void onUpdateList();
+    }
 
 }

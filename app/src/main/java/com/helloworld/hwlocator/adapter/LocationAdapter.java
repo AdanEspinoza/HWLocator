@@ -54,7 +54,7 @@ public class LocationAdapter extends ArrayAdapter<LocationObject> {
                     .append(", ")
                     .append(locationObject.getZipPostalCode());
             viewHolder.mAddress.setText(stringBuilder.toString());
-            viewHolder.mDistance.setText(locationObject.getDistance().length()>0?locationObject.getDistance()+" KM":"Unknown");
+            viewHolder.mDistance.setText(locationObject.getDistance()!=null?locationObject.getDistance()+" KM":mContext.getString(R.string.unknown_distance));
         }
         return convertView;
     }

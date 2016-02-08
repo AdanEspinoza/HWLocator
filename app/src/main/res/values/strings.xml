@@ -7,6 +7,6 @@
     <string name="ok_button">OK</string>
     <string name="call_button">CALL</string>
     <string name="directions_button">DIRECTIONS</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="unknown_distance">Unknown</string>
 
 </resources>

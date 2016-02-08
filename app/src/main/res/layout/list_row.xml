@@ -2,21 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/hwLightGray"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/office_tv_name"
+        style="@style/listRowTextOffice"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"/>
 
     <TextView
         android:id="@+id/office_tv_address"
+        style="@style/listRowText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/office_tv_distance"
+        style="@style/listRowText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"/>
 
 </LinearLayout>

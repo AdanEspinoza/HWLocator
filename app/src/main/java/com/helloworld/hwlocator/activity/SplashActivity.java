@@ -85,17 +85,6 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void getDataFromJson() {
-        String path = Constants.API_URL_LOCATIONS;
-        LocationsResponse locationsResponse = RetrofitManager.getService().getLoca(path);
-        Singleton.getInstance().setLocationObjectList(locationsResponse.getLocationObjects());
-        if (!LocationDBHelper.doesDatabaseExist(SplashActivity.this)) {
-            //insert in database first time
-            insertDataDB();
-        }
-        Log.d(TAG, "Success");
-    }
-
     private void insertDataDB() {
         List<LocationObject> locationObjectList = Singleton.getInstance().getLocationObjectList();
         if (locationObjectList.size() > 0) {

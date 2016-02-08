@@ -41,7 +41,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         mBtnDirections.setOnClickListener(this);
 
         if (getIntent() != null) {
-            mLocationObject = (LocationObject) getIntent().getSerializableExtra(Constants.INTENT_EXTRA_DETAIL_LOCATION);
+            mLocationObject = (LocationObject) getIntent().getParcelableExtra(Constants.INTENT_EXTRA_DETAIL_LOCATION);
         } else if(savedInstanceState!=null) {
             mLocationObject = (LocationObject) savedInstanceState.getSerializable(Constants.BUNDLE_DETAIL_ACTIVITY);
         }
@@ -50,12 +50,13 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         Uri uri = Uri.parse(url);
         Picasso.with(this).
                 load(uri).
+                fit().
                 placeholder(R.drawable.hw_splash).
                 into(mImageOffice);
 
         mName.setText(mLocationObject.getName());
         mAddress.setText(DeviceUtils.getFullAddress(mLocationObject));
-        mDistance.setText(mLocationObject.getDistance());
+        mDistance.setText(mLocationObject.getDistance()+" KM");
 
         double latitude = DeviceUtils.getDoubleFromString(mLocationObject.getLatitude());
         double longitude = DeviceUtils.getDoubleFromString(mLocationObject.getLongitude());
@@ -64,8 +65,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 .append(latitude)
                 .append(",")
                 .append(longitude)
-                .append("&zoom=15&size=600x600&markers=color:0xff500e")
-                .append("%7C")
+                .append("&zoom=15&size=800x800&markers=color:0xff500e%7C")
                 .append(latitude)
                 .append(",")
                 .append(longitude);
@@ -73,6 +73,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         Log.d(TAG, sb.toString());
         Picasso.with(this).
                 load(uri).
+                fit().
                 placeholder(R.drawable.hw_splash).
                 into(mStaticMap);
 
