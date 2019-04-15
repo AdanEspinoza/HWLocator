@@ -17,4 +17,4 @@ This is a demo that contains different elements from Android:
 * Intents (explicit, implicit)
 * The app works offline
 
-By Adan Arias
+By Adan Espinoza
